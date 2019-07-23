@@ -1,0 +1,103 @@
+## Global
+key_vault_policy_object_ids = {
+  {{- range $cluster := (datasource "config").clusters }}
+    {{- if eq $cluster.enabled true }}
+      {{- range $policy := $cluster.keyvault.policyObjectIds }}
+        "{{ $policy.name }}_{{ $cluster.name }}" = {
+          id = {{ $policy.value | quote }}
+          name = {{ $policy.name | quote }}
+          cluster = {{ $cluster.name | quote }}
+        },
+      {{- end }}
+    {{- end }}
+  {{- end }}
+}
+
+infra_name = "{{ (datasource "config").global.infraName }}"
+environment = "{{ (datasource "config").global.environment }}"
+bastion_enabled = {{ (datasource "config").global.bastionEnabled }}
+bastion_admin_user = "{{ (datasource "config").global.bastionAdminUser }}"
+az_location = "{{ (datasource "config").global.azLocation }}"
+
+clusters = {
+{{- range $cluster := (datasource "config").clusters }}
+  {{- if eq $cluster.enabled true }}
+  "{{ $cluster.name }}" = {
+      cluster_name           = {{ $cluster.name | quote }}
+      subnet_name           = {{ $cluster.subnetName | quote }}
+      cluster_version        = {{ $cluster.clusterVersion | quote }}
+      kube_dashboard_enabled = {{ $cluster.kubeDashboardEnabled }}
+      private_cluster_enabled= {{ $cluster.privateClusterEnabled }}
+      cluster_admin_user     = {{ $cluster.clusterAdminUser | quote }}
+      cluster_network = {
+        network_plugin       = {{ $cluster.clusterNetwork.networkPlugin | quote }}
+        network_policy       = {{ $cluster.clusterNetwork.networkPolicy | quote }}
+        service_cidr       = {{ $cluster.clusterNetwork.serviceCidr | quote }}
+        docker_bridge_cidr = {{ $cluster.clusterNetwork.dockerBridgeCidr | quote }}
+        dns_service_ip     = {{ $cluster.clusterNetwork.dnsServiceIP | quote }}
+        dns_prefix         = "{{ $cluster.name }}-dns"
+        load_balancer_sku     = {{ $cluster.clusterNetwork.loadBalancerSKU | quote }}
+      }
+      default_node_pool = {
+        name               = {{ $cluster.defaultNodePool.name | quote }}
+        node_count         = {{ $cluster.defaultNodePool.nodeCount }}
+        vm_size            = {{ $cluster.defaultNodePool.vmSize | quote }}
+        os_disk_size_gb    = {{ $cluster.defaultNodePool.diskSizeGB }}
+        min_count          = {{ $cluster.defaultNodePool.minCount }}
+        max_count          = {{ $cluster.defaultNodePool.maxCount }}
+        availability_zones = {{ $cluster.defaultNodePool.availabilityZones }}
+      }
+      ad_rbac_enabled       = {{ $cluster.activeDirectory.rbac.enabled }}
+      ad_admins_object_ids = [
+        {{- range $id := $cluster.adAdminsObjectIds }}
+          {{ . | quote }},
+        {{- end }}
+      ]
+    },
+  {{- end }}
+{{- end }}
+}
+
+additional_node_pools = {
+{{- if (datasource "config").nodePools }}
+  {{- range $pool := (datasource "config").nodePools }}
+    {{ $pool.key }} = {
+      name                 = "{{ $pool.name }}"
+      cluster_name         = "{{ $pool.clusterName }}"
+      subnet_name         = "{{ $pool.subnetName }}"
+      node_count           = {{ $pool.nodeCount }}
+      auto_scaling_enabled = {{ $pool.autoScalingEnabled }}
+      vm_size              = "{{ $pool.vmSize }}"
+      os_type              = "{{ $pool.osType }}"
+      os_disk_size_gb      = "{{ $pool.diskSizeGB }}"
+      min_count            = {{ $pool.minCount }}
+      max_count            = {{ $pool.maxCount }}
+      availability_zones   = {{ $pool.availabilityZones }}
+    }
+  {{- end }}
+{{- end }}
+}
+
+secret_permissions = [
+  {{- range $perm := (datasource "config").keyvault.secretPermissions }}
+    {{ . | quote }},
+  {{- end }}
+]
+
+key_permissions = [
+  {{- range $perm := (datasource "config").keyvault.keyPermissions }}
+    {{ . | quote }},
+  {{- end }}
+]
+
+certificate_permissions = [
+  {{- range $perm := (datasource "config").keyvault.certificatePermissions }}
+    {{ . | quote }},
+  {{- end }}
+]
+
+storage_permissions = [
+  {{- range $perm := (datasource "config").keyvault.storagePermissions }}
+    {{ . | quote }},
+  {{- end }}
+]
