@@ -1,5 +1,15 @@
 ## Required Variables
 
+variable "client_id" {
+  description = "Service principal's client ID for AKS service principal configuration"
+  type = string
+}
+
+variable "client_secret" {
+  description = "Service principal's client secret for AKS service principal configuration"
+  type = string
+}
+
 variable "key_vault_policy_object_ids" {
   description = "The object ids associated with the key vault policy"
   type        = map(object({ id : string, name : string, cluster : string }))
