@@ -22,28 +22,6 @@ variable "infra_name" {
   type        = string
 }
 
-## Optional Variables
-variable "environment" {
-  description = "The environment name (dev, staging, prod, etc...)"
-  type = string
-
-  default = "dev"
-}
-
-variable "az_location" {
-  description = "The azure location on which resources are deployed"
-  type = string
-
-  default = "north europe"
-}
-
-variable "subnets" {
-  description = "The subnets names"
-  type = map(string)
-
-  default = {}
-}
-
 variable "clusters" {
   description = "The clusters configurations"
   type = map(object({
@@ -75,6 +53,29 @@ variable "clusters" {
     ad_admins_object_ids : list(string)
   }))
 }
+
+## Optional Variables
+variable "environment" {
+  description = "The environment name (dev, staging, prod, etc...)"
+  type = string
+
+  default = "dev"
+}
+
+variable "az_location" {
+  description = "The azure location on which resources are deployed"
+  type = string
+
+  default = "north europe"
+}
+
+variable "subnets" {
+  description = "The subnets names"
+  type = map(string)
+
+  default = {}
+}
+
 
 variable "additional_node_pools" {
   description = "Additional pools config to AKS clusters"

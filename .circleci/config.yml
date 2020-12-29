@@ -29,7 +29,8 @@ jobs:
               -var client_id=$ARM_CLIENT_ID \
               -var client_secret=$ARM_CLIENT_SECRET \
               -var key_vault_policy_object_ids='{}' \
-              -var infra_name="infra"
+              -var infra_name="infra" \
+              -var clusters='{}'
 
 # Orchestrate our job run sequence
 workflows:
