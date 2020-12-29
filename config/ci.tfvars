@@ -1,6 +1,6 @@
 subnets = {
-  "snet-lab-bastion" = "/subscriptions/a68c61a6-aaae-408d-b703-1d88a0610144/resourceGroups/rg-lab-k8s-infra/providers/Microsoft.Network/virtualNetworks/vnet-lab-k8s-infra/subnets/snet-lab-bastion"
-  "snet-lab-main" = "/subscriptions/a68c61a6-aaae-408d-b703-1d88a0610144/resourceGroups/rg-lab-k8s-infra/providers/Microsoft.Network/virtualNetworks/vnet-lab-k8s-infra/subnets/snet-lab-main"
+  "snet-dev-bastion" = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-dev-k8s-infra/providers/Microsoft.Network/virtualNetworks/vnet-dev-k8s-infra/subnets/snet-dev-bastion"
+  "snet-dev-main" = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-dev-k8s-infra/providers/Microsoft.Network/virtualNetworks/vnet-dev-k8s-infra/subnets/snet-dev-main"
 }
 
 clusters = {
@@ -31,7 +31,7 @@ clusters = {
       }
       ad_rbac_enabled       = true
       ad_admins_object_ids = [
-          "06eb1509-cc1f-4aae-9de3-2fc22f72b34f",
+          "00000000-0000-0000-0000-000000000000",
       ]
     },
 }
