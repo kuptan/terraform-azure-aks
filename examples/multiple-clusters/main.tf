@@ -5,7 +5,7 @@ provider "azurerm" {
 module "aks-cluster" {
   for_each = var.clusters
 
-  source = "../../../terraform-azure-k8s-clusters"
+  source = "kube-champ/aks/azure"
 
   client_id     = var.client_id
   client_secret = var.client_secret

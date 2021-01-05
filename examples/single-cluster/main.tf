@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 module "aks-cluster" {
-  source = "../../../terraform-azure-k8s-clusters"
+  source = "kube-champ/aks/azure"
 
   client_id     = var.client_id
   client_secret = var.client_secret
