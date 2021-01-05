@@ -28,9 +28,6 @@ jobs:
             terraform plan \
               -var client_id=$ARM_CLIENT_ID \
               -var client_secret=$ARM_CLIENT_SECRET \
-              -var key_vault_policy_object_ids='{}' \
-              -var infra_name="k8s-infra" \
-              -var-file config/ci.tfvars \
               examples/single-cluster
 
 # Orchestrate our job run sequence
