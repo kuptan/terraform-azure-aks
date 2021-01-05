@@ -1,5 +1,5 @@
 # Terraform Azure K8S Clusters
-[![CircleCI](https://circleci.com/gh/kube-champ/terraform-azure-k8s-clusters/tree/master.svg?style=shield)](https://circleci.com/gh/kube-champ/terraform-azure-k8s-clusters/tree/master) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs) [![GitHub Release](https://img.shields.io/github/release/kube-champ/terraform-azure-k8s-clusters.svg?style=flat)]() [![PR's Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+[![CircleCI](https://circleci.com/gh/kube-champ/terraform-azure-aks/tree/master.svg?style=shield)](https://circleci.com/gh/kube-champ/terraform-azure-aks/tree/master) [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs) [![GitHub Release](https://img.shields.io/github/release/kube-champ/terraform-azure-aks.svg?style=flat)]() [![PR's Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
 This is a terraform module to create Kubernetes clusters on top of Azure AKS
 
