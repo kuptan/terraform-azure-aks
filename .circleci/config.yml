@@ -10,8 +10,8 @@ jobs:
       - run:
           name: terraform init & validate
           command: |
-            terraform init
-            terraform validate
+            terraform init examples/single-cluster
+            terraform validate examples/single-cluster
       - persist_to_workspace:
           root: .
           paths:
@@ -30,7 +30,8 @@ jobs:
               -var client_secret=$ARM_CLIENT_SECRET \
               -var key_vault_policy_object_ids='{}' \
               -var infra_name="k8s-infra" \
-              -var-file config/ci.tfvars
+              -var-file config/ci.tfvars \
+              examples/single-cluster
 
 # Orchestrate our job run sequence
 workflows:

@@ -2,87 +2,124 @@
 
 variable "client_id" {
   description = "Service principal's client ID for AKS service principal configuration"
-  sensitive = true
-  type = string
+  sensitive   = true
+  type        = string
 }
 
 variable "client_secret" {
   description = "Service principal's client secret for AKS service principal configuration"
-  sensitive = true
-  type = string
-}
-
-variable "key_vault_policy_object_ids" {
-  description = "The object ids associated with the key vault policy"
-  type        = map(object({ id : string, name : string, cluster : string }))
-}
-
-variable "infra_name" {
-  description = "A general name that will be used on the resources"
+  sensitive   = true
   type        = string
 }
 
-variable "clusters" {
-  description = "The clusters configurations"
-  type = map(object({
-    cluster_name : string
-    subnet_name : string
-    cluster_version : string
-    kube_dashboard_enabled : bool
-    private_cluster_enabled : bool
-    cluster_admin_user : string
-    cluster_network : object({
-      network_plugin : string
-      network_policy : string
-      service_cidr : string
-      docker_bridge_cidr : string
-      dns_service_ip : string
-      dns_prefix : string
-      load_balancer_sku : string
-    }),
-    default_node_pool = object({
-      name : string
-      node_count : number
-      vm_size : string
-      os_disk_size_gb : number
-      min_count : number
-      max_count : number
-      availability_zones : list(number)
-    })
-    ad_rbac_enabled : bool
-    ad_admins_object_ids : list(string)
-  }))
+variable "name" {
+  description = "The cluster name"
+  type        = string
 }
 
-## Optional Variables
+variable "subnet_id" {
+  description = "The subnet id where the AKS cluster should be attached to"
+  type        = string
+}
+
 variable "environment" {
   description = "The environment name (dev, staging, prod, etc...)"
-  type = string
+  type        = string
 
   default = "dev"
 }
 
 variable "az_location" {
   description = "The azure location on which resources are deployed"
-  type = string
+  type        = string
 
-  default = "north europe"
+  default = "westeurope"
 }
 
-variable "subnets" {
-  description = "The subnets names"
-  type = map(string)
+variable "cluster_version" {
+  description = "The kubernetes version"
+  type        = string
 
-  default = {}
+  default = "1.18.10"
+}
+
+variable "cluster_network" {
+  description = "Advanced networking configuration for AKS"
+  type = object({
+    network_plugin : string
+    network_policy : string
+    service_cidr : string
+    docker_bridge_cidr : string
+    dns_service_ip : string
+    load_balancer_sku : string
+  })
+
+  default = {
+    network_plugin     = "azure"
+    network_policy     = "calico"
+    service_cidr       = "10.100.0.0/16"
+    docker_bridge_cidr = "172.17.0.1/16"
+    dns_service_ip     = "10.100.0.10"
+    load_balancer_sku  = "Standard"
+  }
+}
+
+variable "default_node_pool" {
+  description = "The default node pool configuration"
+  type = object({
+    name : string
+    node_count : number
+    vm_size : string
+    os_disk_size_gb : number
+    type : string
+    enable_auto_scaling : bool
+    min_count : number
+    max_count : number
+    availability_zones : list(number)
+  })
+
+  default = {
+    name                = "d4v3"
+    node_count          = 2
+    vm_size             = "Standard_D4_v3"
+    os_disk_size_gb     = 30
+    type                = "VirtualMachineScaleSets"
+    enable_auto_scaling = true
+    min_count           = 1
+    max_count           = 4
+    availability_zones  = ["1"]
+  }
+}
+
+variable "kube_dashboard_enabled" {
+  description = "A flag to enable/disable kubernetes dashboard"
+  type        = bool
+
+  default = false
+}
+
+variable "private_cluster_enabled" {
+  description = "A flag to enable/disable private clusters"
+  type        = bool
+
+  default = false
+}
+
+variable "azure_ad" {
+  description = "Azure AD integration config"
+  type        = object({ rbac_enabled : bool, admins_object_ids : list(string) })
+
+  default = {
+    rbac_enabled      = false
+    admins_object_ids = []
+  }
 }
 
 
 variable "additional_node_pools" {
-  description = "Additional pools config to AKS clusters"
+  description = "Additional node pools configuration"
   type = map(object({
-    name : string
-    cluster_name : string
-    subnet_name : string
+    subnet_id : string
     node_count : number
     vm_size : string
     os_type : string
@@ -96,72 +133,9 @@ variable "additional_node_pools" {
   default = {}
 }
 
-variable "bastion_enabled" {
-  description = "Flag whether a bastion instance should be created"
-  type = bool
-
-  default = false
-}
-
-variable "bastion_admin_user" {
-  description = "Bastion admin username in case 'bastion_enabled' flag is set to true"
-  type = string
-
-  default = "kubebastionadmin"
-}
-
-variable "key_permissions" {
-  description = "Key vault key permissions"
-  type = list(string)
-
-  default = [
-    "create",
-    "get",
-    "list",
-    "delete"
-  ]
-}
-
-variable "secret_permissions" {
-  description = "Key vault secret permissions"
-  type = list(string)
-
-  default = [
-    "list",
-    "get",
-    "set",
-    "delete",
-  ]
-}
-
-variable "certificate_permissions" {
-  description = "Key vault certificate permissions"
-  type = list(string)
-
-  default = [
-    "list",
-    "delete",
-    "get",
-    "create",
-    "update",
-  ]
-}
-
-variable "storage_permissions" {
-  description = "Key vault storage permissions"
-  type = list(string)
-
-  default = [
-    "get",
-    "list",
-    "delete",
-    "update",
-  ]
-}
-
 variable "tags" {
   description = "Additional tags"
-  type = map(string)
+  type        = map(string)
 
   default = {}
 }

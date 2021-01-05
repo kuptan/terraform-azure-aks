@@ -1,11 +1,5 @@
-provider "azurerm" {
-  features {}
-}
-
-resource "azurerm_resource_group" "clusters_rg" {
-  for_each = var.clusters
-
-  name     = "rg-${var.environment}-cluster-${each.key}"
+resource "azurerm_resource_group" "cluster_rg" {
+  name     = "rg-${var.environment}-cluster-${var.name}"
   location = var.az_location
 
   tags = local.common_tags
