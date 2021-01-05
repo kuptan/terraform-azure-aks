@@ -4,15 +4,15 @@
 This is a terraform module to create Kubernetes clusters on top of Azure AKS
 
 ## Module Infos
-Check the module documentation [here](https://registry.terraform.io/modules/kube-champ/k8s-clusters/azure/latest)
+Check the module documentation [here](https://registry.terraform.io/modules/kube-champ/aks/azure/latest)
 
 The naming convention of the resources are based on the [Azure Naming Convention](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging)
 
 ## Usage
 
 ```terraform
-module "k8s-clusters" {
-  source  = "kube-champ/k8s-clusters/azure"
+module "aks" {
+  source  = "kube-champ/aks/azure"
   ...
 }
 ```
