@@ -46,3 +46,7 @@ output "public_ssh_key" {
   sensitive = true
   value     = tls_private_key.k8s_ssh_key.public_key_openssh
 }
+
+output "azure_ad_admin_group" {
+  value = var.azure_ad.rbac_enabled ? azuread_group.admin.0.name : "NOT SET"
+}

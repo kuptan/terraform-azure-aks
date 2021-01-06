@@ -82,6 +82,8 @@ resource "azurerm_kubernetes_cluster" "kube_cluster" {
 }
 
 resource "azuread_group" "admin" {
+  count = var.azure_ad.rbac_enabled ? 1 : 0
+
   name        = "aks-${var.name}-admin"
   description = "cluster ${var.name} admins"
   members     = var.azure_ad.admins_object_ids
