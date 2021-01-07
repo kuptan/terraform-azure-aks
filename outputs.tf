@@ -22,25 +22,6 @@ output "host" {
   value = azurerm_kubernetes_cluster.kube_cluster.kube_config.0.host
 }
 
-output "kube_config" {
-    value = azurerm_kubernetes_cluster.kube_cluster.kube_config_raw
-}
-
-output "cluster_ca_certificate" {
-  sensitive = true
-  value     = azurerm_kubernetes_cluster.kube_cluster.kube_config.0.cluster_ca_certificate
-}
-
-output "client_certificate" {
-  sensitive = true
-  value     = azurerm_kubernetes_cluster.kube_cluster.kube_config.0.client_certificate
-}
-
-output "client_key" {
-  sensitive = true
-  value     = azurerm_kubernetes_cluster.kube_cluster.kube_config.0.client_key
-}
-
 output "private_ssh_key" {
   sensitive = true
   value     = tls_private_key.k8s_ssh_key.private_key_pem
