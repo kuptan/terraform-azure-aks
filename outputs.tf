@@ -37,6 +37,11 @@ output "client_key" {
   value     = azurerm_kubernetes_cluster.kube_cluster.kube_config.0.client_key
 }
 
+output "token" {
+  sensitive = true
+  value     = azurerm_kubernetes_cluster.kube_cluster.kube_config.0.password
+}
+
 output "private_ssh_key" {
   sensitive = true
   value     = tls_private_key.k8s_ssh_key.private_key_pem
