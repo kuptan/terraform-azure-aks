@@ -7,7 +7,7 @@ output "node_resource_group_name" {
 }
 
 output "name" {
-  value = var.name
+  value = azurerm_kubernetes_cluster.kube_cluster.name
 }
 
 output "id" {
